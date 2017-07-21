@@ -10,6 +10,29 @@ from _Ax import Ax
 # TODO: modify 'center' so that it actually does something.
 
 def tigre_w(tomo,  theta, recon, center=None, **kwargs):
+    '''
+    Parameters:
+    -----------
+    tomo: object being reconstructed (np.array)
+    theta: angles (np.array)
+    recon: object being reconstructed to (np.array)
+    center: default None
+    kwargs: options for tigre see help(tigre.ex_func) for further instructions
+
+    Examples:
+    --------
+    >>> import tomopy
+    >>> import tigre
+    >>> obj = tomopy.shepp3d()
+    >>> ang = np.linspace(0,2*pi,100)
+    >>> sim = tomopy.project(obj,ang)
+    >>> rec = tigre_w(sim,ang,obj,options={'method':'SART_TV','num_iter':10,
+    >>>                                    'geo':{'nDetector:'[sim.shape[1],sim.shape[0]]}})
+    >>> tigre.plotImg(rec)
+    >>> # returns plot of reconstructed image.
+    -----------------------------------------------------------------
+    Coded by:          Reuben Lindroos
+    '''
     default_opts = {'blocksize': 20,
                     'lmbda': 1,
                     'lmbda_red': 0.99,
@@ -76,25 +99,10 @@ def tigre_w(tomo,  theta, recon, center=None, **kwargs):
     if m_opt is 'FDK':
         res = tigre.FDK(tomo, geo, theta)
         return res
-    if m_opt not in ['SIRT', 'SART', 'OS_SART', 'FDK','SART_TV']:
+    if m_opt is 'FBP':
+        res = tigre.FBP(tomo, geo, theta)
+        return res
+    if m_opt not in ['SIRT', 'SART', 'OS_SART', 'FDK','SART_TV', 'FBP']:
         raise ValueError('Algorithm for TIGRE not recognised')
-
-
-obj = tomopy.shepp3d((64, 64, 64))
-ang = np.linspace(0, 2 * np.pi, 100, dtype=np.float32)
-geo = tigre.geo((64,64,64),geo={'nDetector':[94,64]})
-sim = tomopy.project(obj,ang).transpose(1,2,0)
-sim2 = Ax(obj,geo,ang,'ray-voxel')
-print(geo)
-print (sim.shape)
-print(sim2.shape)
-# rec = tigre_w(sim2, ang, obj, options={'method': 'SART', 'num_iter': 10, 'blocksize': 20,'geo':{'filter':'shepp_logan',
-#                                                                                                'nDetector':[94,64],
-#                                                                                                'mode':'parallel'}})
-rec1 = tigre_w(sim, ang, obj, options={'method': 'SART_TV', 'num_iter': 10, 'blocksize': 20,'geo':{'filter':'shepp_logan',
-                                                                                               'nDetector':[94,64],
-                                                                                               'mode':'parallel'}})
-tigre.plotImg(rec1)
-
 
 

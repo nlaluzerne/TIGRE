@@ -1,0 +1,89 @@
+import sys
+import statistics
+from scipy.misc import imread
+import matplotlib.pyplot as plt
+from io import BytesIO
+from PIL import Image
+from sklearn.decomposition import FastICA, PCA
+
+def rgbProcData(im, new_file_name):
+    print im.size
+    if im.mode != 'RGB':
+        im = im.convert('RGB')
+    width,height = im.size
+    new_r_im_data = []
+    new_g_im_data = []
+    new_b_im_data = []
+    n_r = 0
+    for pix in im.getdata():
+        r,g,b = pix
+        pix_stdev = statistics.stdev([r,g,b])
+        if pix_stdev > 8:
+            n_r += 1
+
+            new_r_im_data.append((r,0,0))
+            new_g_im_data.append((0,g,0))
+            new_b_im_data.append((0,0,b))
+        else:
+            new_r_im_data.append((0,0,0))
+            new_g_im_data.append((0,0,0))
+            new_b_im_data.append((0,0,0))
+
+    img_r = Image.new('RGB', (width, height))
+    img_g = Image.new('RGB', (width, height))
+    img_b = Image.new('RGB', (width, height))
+    img_r.putdata(new_r_im_data)
+    img_g.putdata(new_g_im_data)
+    img_b.putdata(new_b_im_data)
+    img_r.save('./testing_results/r_'+new_file_name)
+    img_g.save('./testing_results/g_'+new_file_name)
+    img_b.save('./testing_results/b_'+new_file_name)
+    fig = plt.figure()
+    ax1 = fig.add_subplot(1,3,1)
+    ax2 = fig.add_subplot(1,3,2)
+    ax3 = fig.add_subplot(1,3,3)
+    ax1.imshow(img_r)
+    ax2.imshow(img_g)
+    ax3.imshow(img_b)
+    plt.show()
+
+# Description:
+# @Param im {PIL.Image Object} - image object converted to grayscale for analysis
+def grayProcData(im):
+    plt.imshow(im)
+    plt.show()
+
+# Description:
+# @Param: image{'*.jpg','*.png'} - image to be analyzed and processed into classifier data
+# @Param: new_file_name {String} - 
+
+def preProcImage(image,new_file_name):
+    test_im = Image.open('./testing_images/'+image,'r')
+    gray_im = test_im.convert('LA')
+    #im_ycbcr = imread(image,mode='YCbCr')
+    
+    # Utilize the RGB Colorspace to analyze the image and pull statistics
+    rgbProcData(test_im, new_file_name)
+    
+    grayProcData(gray_im)
+
+    # Independent Component Analysis
+    # transformer = FastICA(n_components=3)
+    # im_ica = transformer.fit(new_r_im_data)
+    # im_restored = transformer.inverse_transform(im_ica)
+    
+
+
+
+
+
+
+def main():
+    arg_len = len(sys.argv)
+
+    if arg_len == 3:
+        preProcImage(sys.argv[1],sys.argv[2])
+        print "We here"
+
+if __name__ == '__main__':
+    main()

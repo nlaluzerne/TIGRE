@@ -1,7 +1,13 @@
 import os
 import random
 from PIL import Image
+import json
 import numpy as np
+
+# TODO(cmaxcy):
+# - Add ability for batch size and image resize to be specified
+# - Add tests for image_info_gen
+# - Consider wrapping all in class
 
 def read_json(filename):
   with open(filename, 'r') as f:
@@ -13,27 +19,28 @@ def dict_to_array(dictionary):
 def file_name(path):
   return os.path.splitext(os.path.basename(path))[0]
 
+def directory_contents(path):
+  return os.listdir(path)
+
 def sample(path):
-  file_class_pairs = []
 
-  # Malignant files
-  files = list(os.listdir('/'.join([path, 'malignant'])))
-  class_name = ['malignant'] * len(files)
-  file_class_pairs += list(zip(files, class_name))
+  classes = directory_contents(path)
+  class_sample = random.choice(classes)
 
-  # Benign files
-  files = list(os.listdir('/'.join([path, 'benign'])))
-  class_name = ['benign'] * len(files)
-  file_class_pairs += list(zip(files, class_name))
+  files = directory_contents('/'.join([path, class_sample]))
+  file_sample = file_name(random.choice(files))
 
-  f, c = random.choice(file_class_pairs)
-  return file_name(f), c
+  return file_sample, class_sample
+
+def category_to_number(categories, category):
+  return sorted(categories).index(category)
 
 def image_info_gen(path):
   while True:
-    name, c = sample(path)
+    classes = directory_contents(path)
+    example, clas = sample(path)
 
-    example_path = '/'.join([path, c, name])
+    example_path = '/'.join([path, clas, example])
 
     img = Image.open('{}.jpg'.format(example_path))
     img = img.resize((100, 100))
@@ -42,9 +49,6 @@ def image_info_gen(path):
     preprocess = read_json('{}.json'.format(example_path))
     preprocess = dict_to_array(preprocess)
 
-    if c == 'benign':
-      y = 0
-    else:
-      y = 1
+    y = category_to_number(classes, clas)
 
     yield [np.array([img]), np.array([preprocess])], np.array([y])

@@ -3,9 +3,22 @@ import os
 import shutil
 from PIL import Image
 import json
-from image_data_generator import file_name, sample, image_info_gen
+from image_data_generator import file_name, sample, image_info_gen, directory_contents, category_to_number
 
 class TestImageDataGenerator(unittest.TestCase):
+
+  def test_category_to_number(self):
+    test_categories = ['apple', 'orange', 'banana']
+    f = lambda x: category_to_number(test_categories, x)
+    self.assertEqual(f('apple'), 0)
+    self.assertEqual(f('banana'), 1)
+    self.assertEqual(f('orange'), 2)
+
+  def test_directory_contents(self):
+    test_directory = 'test_data'
+    expected_contents = ['train', 'validation']
+    actual_contents = directory_contents(test_directory)
+    self.assertCountEqual(expected_contents, actual_contents)
 
   def test_sample(self):
     expected_sample_results = [('1', 'malignant'), ('2', 'malignant'),
@@ -37,19 +50,11 @@ class TestImageDataGenerator(unittest.TestCase):
     img.save(path)
 
   def setUp(self):
-
-    # Construct fake validation/training folders
-    os.makedirs('test_data')
-    os.makedirs('test_data/train')
-    os.makedirs('test_data/validation')
-    os.makedirs('test_data/train/malignant')
-    os.makedirs('test_data/train/benign')
-    os.makedirs('test_data/validation/malignant')
-    os.makedirs('test_data/validation/benign')
-
     # Construct fake images and jsons
     for image_set in ['train', 'validation']:
       for image_class in ['malignant', 'benign']:
+        # Create folder
+        os.makedirs('/'.join(['test_data', image_set, image_class]))
         for data_point in ['1', '2']:
           path = '/'.join(['test_data', image_set, image_class, data_point])
           self.create_image(path + '.jpg')

@@ -3,7 +3,7 @@ from keras.models import Sequential, Model
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense, Input, concatenate
 from keras import backend as K
-from concat import image_info_gen
+from image_data_generator import image_info_gen
 
 # Specify image and training information
 img_width, img_height = 100, 100

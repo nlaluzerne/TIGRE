@@ -52,3 +52,26 @@ def image_info_gen(path):
     y = category_to_number(classes, clas)
 
     yield [np.array([img]), np.array([preprocess])], np.array([y])
+
+def img_preprocc_gen(path, f, batch_size=32, resize_dims=(100, 100)):
+    while True:
+        imgs = []
+        pres = []
+        ys = []
+        for _ in range(batch_size):
+            classes = directory_contents(path)
+            example, clas = sample(path)
+
+            example_path = '/'.join([path, clas, example])
+
+            with Image.open('{}.jpg'.format(example_path)) as img:
+                img_array = np.array(img.resize(resize_dims))
+
+            pre = f(img_array)
+            y = category_to_number(classes, clas)
+
+            imgs.append(img_array)
+            pres.append(pre)
+            ys.append(y)
+
+        yield (np.array(imgs), np.array(pres)), np.array(ys)

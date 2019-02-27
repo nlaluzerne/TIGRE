@@ -3,7 +3,9 @@ import os
 import shutil
 from PIL import Image
 import json
+import numpy as np
 from image_data_generator import file_name, sample, image_info_gen, directory_contents, category_to_number
+from image_data_generator import img_preprocc_gen
 
 class TestImageDataGenerator(unittest.TestCase):
 
@@ -48,6 +50,23 @@ class TestImageDataGenerator(unittest.TestCase):
   def create_image(path, dims=(150, 150)):
     img = Image.new('RGB', dims)
     img.save(path)
+
+  def test_img_preprocc_gen(self):
+    for batch_size, resize_dims in [(32, (100, 100)), (1, (1, 1))]:
+      test_f = lambda x: np.array([1])
+      test_gen = img_preprocc_gen('test_data/train', test_f,
+        batch_size=batch_size, resize_dims=resize_dims)
+      (example_imgs, example_pres), example_ys = next(test_gen)
+      self.assertEqual(example_imgs.shape[0], batch_size)
+      self.assertEqual(example_pres.shape[0], batch_size)
+      self.assertEqual(example_ys.shape[0], batch_size)
+
+      np.testing.assert_array_equal(np.array([[1]] * batch_size), example_pres)
+
+      expected_imgs_shape = (batch_size,) + resize_dims + (3,)
+      actual_imgs_shape = example_imgs.shape
+
+      self.assertEqual(expected_imgs_shape, actual_imgs_shape)
 
   def setUp(self):
     # Construct fake images and jsons

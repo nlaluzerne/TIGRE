@@ -1,24 +1,16 @@
 import numpy as np
+from fAndrew import rgbProcData
+from inference import infer as fCarter
 
 # TODO: read in images and extract features
 # f and fc are expected to be file paths
 def carter_f(f, fc):
-    # TODO: Read in files
-
-    # TODO: Extract features
-    features = [1.0, 2.0]
-
-    return features
+    return list(fCarter([f])[0]) + list(fCarter([fc])[0])
 
 # TODO: read in images and extract features
 # f and fc are expected to be file paths
 def andrew_f(f, fc):
-    # TODO: Read in files
-
-    # TODO: Extract features
-    features = [2.0, 3.0]
-
-    return features
+    return rgbProcData(f) + rgbProcData(fc)
 
 def all_f(f, fc):
     return carter_f(f, fc) + andrew_f(f, fc)

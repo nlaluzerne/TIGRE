@@ -15,14 +15,12 @@ def file_lines(file_name):
 def read_img(file_name):
     return np.asarray(PIL.Image.open(file_name))
 
-N = file_lines('patientAssignments/patients_nocancer.txt')
-Y = file_lines('patientAssignments/patients_cancer.txt')
-
 ascii_chars = set([chr(i) for i in range(127)])
-
 def strip(s):
     return ''.join([c for c in s if c in ascii_chars])
 
+N = file_lines('patientAssignments/patients_nocancer.txt')
+Y = file_lines('patientAssignments/patients_cancer.txt')
 N = [strip(l) for l in N]
 Y = [strip(l) for l in Y]
 
@@ -40,7 +38,6 @@ X = np.array(N_mat + Y_mat)
 y = np.array(N_labels + Y_labels)
 
 scaler = StandardScaler()
-
 X = scaler.fit_transform(X)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33)

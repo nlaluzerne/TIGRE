@@ -196,10 +196,10 @@ class UIManager(FloatLayout):
 		rect = Button(pos_hint={'x':.25, 'y': .175}, background_normal='', size_hint=(.5, .6), background_color=[(124/255),(126/255),(127/255),1])
 
 		#page title
-		title = Label(text="Image Select", font_size=100, pos_hint={'x':0, 'center_y': .9}, color=[0,(81/255),(186/255),1], outline_width=1)
+		title = Label(text="Temperature Matrix Select", font_size=100, pos_hint={'x':0, 'center_y': .9}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#page desc
-		desc = Label(text="Select a Cooled Image", font_size=50, pos_hint={'x':0, 'center_y': .82}, color=[0,(81/255),(186/255),1], outline_width=1)
+		desc = Label(text="Select a Cooled Matrix", font_size=50, pos_hint={'x':0, 'center_y': .82}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#file chooser
 		fchooser = FileChooserListView(pos_hint={'x':.25, 'y': .175}, size_hint=(.5, .6))
@@ -244,10 +244,10 @@ class UIManager(FloatLayout):
 		rect = Button(pos_hint={'x':.25, 'y': .175}, background_normal='', size_hint=(.5, .6), background_color=[(124/255),(126/255),(127/255),1])
 
 		#page title
-		title = Label(text="Image Select", font_size=100, pos_hint={'x':0, 'center_y': .9}, color=[0,(81/255),(186/255),1], outline_width=1)
+		title = Label(text="Temperature Matrix Select", font_size=100, pos_hint={'x':0, 'center_y': .9}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#page desc
-		desc = Label(text="Select a not Cooled Image", font_size=50, pos_hint={'x':0, 'center_y': .82}, color=[0,(81/255),(186/255),1], outline_width=1)
+		desc = Label(text="Select a Normal Temperature Matrix", font_size=50, pos_hint={'x':0, 'center_y': .82}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#file chooser
 		fchooser = FileChooserListView(pos_hint={'x':.25, 'y': .175}, size_hint=(.5, .6))

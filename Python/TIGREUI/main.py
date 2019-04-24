@@ -48,9 +48,6 @@ class UIManager(FloatLayout):
 		therm = Button(text='Thermography', pos_hint={'center_x':.70, 'center_y': .4335}, size_hint=(.2, None), font_size=25, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
 		therm.bind(on_press=self.Thermo)
 
-		#therm blurb
-		thermBlurb = Label(text="*Under Construction*", font_size=15, pos_hint={'center_x':.70, 'center_y': .3735}, color=[(232/255),0,(13/255),1], outline_width=1)
-
 		#exit button
 		exit = Button(text='Exit', pos_hint={'right':1, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
 		exit.bind(on_press=self.Close)
@@ -61,7 +58,6 @@ class UIManager(FloatLayout):
 		layout.add_widget(ct)
 		layout.add_widget(ctBlurb)
 		layout.add_widget(therm)
-		layout.add_widget(thermBlurb)
 		layout.add_widget(about)
 		layout.add_widget(exit)
 
@@ -102,9 +98,6 @@ class UIManager(FloatLayout):
 		therm = Button(text='Thermography', pos_hint={'center_x':.70, 'center_y': .435}, size_hint=(.2, None), font_size=25, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
 		therm.bind(on_press=self.Thermo)
 
-		#therm blurb
-		thermBlurb = Label(text="*Under Construction*", font_size=15, pos_hint={'center_x':.70, 'center_y': .375}, color=[(232/255),0,(13/255),1], outline_width=1)
-
 		#exit button
 		exit = Button(text='Exit', pos_hint={'right':1, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
 		exit.bind(on_press=self.Close)
@@ -115,7 +108,6 @@ class UIManager(FloatLayout):
 		layout.add_widget(ct)
 		layout.add_widget(ctBlurb)
 		layout.add_widget(therm)
-		layout.add_widget(thermBlurb)
 		layout.add_widget(about)
 		layout.add_widget(exit)
 
@@ -153,32 +145,32 @@ class UIManager(FloatLayout):
 		###widgets setup
 
 		#page title
-		title = Label(text="Thermo TIGRE", font_size=100, pos_hint={'x':0, 'center_y': .9}, outline_color=[0,0,0,1], outline_width=1)
+		title = Label(text="Thermo TIGRE", font_size=100, pos_hint={'center_x':0.275, 'center_y': .65}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#page desc
-		desc = Label(text="Medical Thermographic Analysis", font_size=50, pos_hint={'x':0, 'center_y': .8}, outline_color=[0,0,0,1], outline_width=1)
+		desc = Label(text="Medical Thermographic Analysis", font_size=50, pos_hint={'center_x':0.280, 'center_y': 0.55}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#breast cancer analysis button
-		bca = Button(text='Breast Cancer Analysis', pos_hint={'x':.3, 'center_y': .5}, size_hint=(.4, None), font_size=25)
+		bca = Button(text='Breast Cancer Analysis', pos_hint={'center_x':.75, 'center_y': .55}, size_hint=(.325, None), font_size=25, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
 		bca.bind(on_press=self.ImageSelectfc)
 
 		#breast cancer analysis blurb
-		bcaBlurb = Label(text="The only option available as of now, but expandable", font_size=15, pos_hint={'x':0, 'center_y': .6}, outline_color=[0,0,0,1], outline_width=1)
+		bcaBlurb = Label(text="The only option available as of now, but expandable", font_size=15, pos_hint={'x':0.25, 'center_y': 0.47}, color=[(232/255),0,(13/255),1], outline_width=1)
 
 		#Help button
-		help = Button(text='Help', pos_hint={'x':.15, 'y': .1}, size_hint=(.2, None), font_size=25)
+		help = Button(text='Help', pos_hint={'center_x': 0.15, 'center_y': 0.45}, size_hint=(0.05, 0.05), font_size=20, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
 		help.bind(on_press=self.UnderConstruction)
 
 		#Learn More button
-		learn = Button(text='Learn More', pos_hint={'x':.65, 'y': .1}, size_hint=(.2, None), font_size=25)
+		learn = Button(text=' Learn\n More', pos_hint={'center_x': 0.40, 'center_y': 0.45}, size_hint=(0.05, 0.05), font_size=20, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
 		learn.bind(on_press=self.UnderConstruction)
 
 		#back button
-		back = Button(text='Back', pos_hint={'x':0, 'bottom_y': 1}, size_hint=(.05, .05), font_size=20)
+		back = Button(text='Back', pos_hint={'left':0, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
 		back.bind(on_press=self.Menu)
 
 		#exit button
-		exit = Button(text='Exit', pos_hint={'x':.95, 'bottom_y': 1}, size_hint=(.05, .05), font_size=20)
+		exit = Button(text='Exit', pos_hint={'right':1, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
 		exit.bind(on_press=self.Close)
 
 		###adding widgets to layout
@@ -200,28 +192,32 @@ class UIManager(FloatLayout):
 
 		###widgets setup
 
+		#file chooser background
+		rect = Button(pos_hint={'x':.25, 'y': .175}, background_normal='', size_hint=(.5, .6), background_color=[(124/255),(126/255),(127/255),1])
+
 		#page title
-		title = Label(text="Image Select", font_size=100, pos_hint={'x':0, 'center_y': .9}, outline_color=[0,0,0,1], outline_width=1)
+		title = Label(text="Image Select", font_size=100, pos_hint={'x':0, 'center_y': .9}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#page desc
-		desc = Label(text="Select a Cooled Image", font_size=50, pos_hint={'x':0, 'center_y': .8}, outline_color=[0,0,0,1], outline_width=1)
+		desc = Label(text="Select a Cooled Image", font_size=50, pos_hint={'x':0, 'center_y': .82}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#file chooser
 		fchooser = FileChooserListView(pos_hint={'x':.25, 'y': .175}, size_hint=(.5, .6))
 
 		#results button
-		results = Button(text='Next', pos_hint={'x':.4, 'y': .05}, size_hint=(.2, None), font_size=25)
+		results = Button(text='Next', pos_hint={'x':.4, 'y': .05}, size_hint=(.2, None), font_size=25, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
 		results.bind(on_press=partial(self.loadfcImage, fchooser), on_release=self.ImageSelectf)
 
 		#back button
-		back = Button(text='Back', pos_hint={'x':0, 'bottom_y': 1}, size_hint=(.05, .05), font_size=20)
+		back = Button(text='Back', pos_hint={'left':0, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
 		back.bind(on_press=self.Thermo)
 
 		#exit button
-		exit = Button(text='Exit', pos_hint={'x':.95, 'bottom_y': 1}, size_hint=(.05, .05), font_size=20)
+		exit = Button(text='Exit', pos_hint={'right':1, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
 		exit.bind(on_press=self.Close)
 
 		###adding widgets to layout
+		layout.add_widget(rect)
 		layout.add_widget(title)
 		layout.add_widget(desc)
 		layout.add_widget(fchooser)
@@ -244,28 +240,32 @@ class UIManager(FloatLayout):
 
 		###widgets setup
 
+		#file chooser background
+		rect = Button(pos_hint={'x':.25, 'y': .175}, background_normal='', size_hint=(.5, .6), background_color=[(124/255),(126/255),(127/255),1])
+
 		#page title
-		title = Label(text="Image Select", font_size=100, pos_hint={'x':0, 'center_y': .9}, outline_color=[0,0,0,1], outline_width=1)
+		title = Label(text="Image Select", font_size=100, pos_hint={'x':0, 'center_y': .9}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#page desc
-		desc = Label(text="Select a not Cooled Image", font_size=50, pos_hint={'x':0, 'center_y': .8}, outline_color=[0,0,0,1], outline_width=1)
+		desc = Label(text="Select a not Cooled Image", font_size=50, pos_hint={'x':0, 'center_y': .82}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#file chooser
 		fchooser = FileChooserListView(pos_hint={'x':.25, 'y': .175}, size_hint=(.5, .6))
 
 		#results button
-		results = Button(text='Next', pos_hint={'x':.4, 'y': .05}, size_hint=(.2, None), font_size=25)
+		results = Button(text='Next', pos_hint={'x':.4, 'y': .05}, size_hint=(.2, None), font_size=25, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
 		results.bind(on_press=partial(self.loadfImage, fchooser), on_release=self.ImgCrop)
 
 		#back button
-		back = Button(text='Back', pos_hint={'x':0, 'bottom_y': 1}, size_hint=(.05, .05), font_size=20)
+		back = Button(text='Back', pos_hint={'left':0, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
 		back.bind(on_press=self.Thermo)
 
 		#exit button
-		exit = Button(text='Exit', pos_hint={'x':.95, 'bottom_y': 1}, size_hint=(.05, .05), font_size=20)
+		exit = Button(text='Exit', pos_hint={'right':1, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
 		exit.bind(on_press=self.Close)
 
 		###adding widgets to layout
+		layout.add_widget(rect)
 		layout.add_widget(title)
 		layout.add_widget(desc)
 		layout.add_widget(fchooser)
@@ -290,24 +290,24 @@ class UIManager(FloatLayout):
 		###widgets setup
 
 		#page title
-		title = Label(text="Image Crop", font_size=100, pos_hint={'x':0, 'center_y': .9}, outline_color=[0,0,0,1], outline_width=1)
+		title = Label(text="Image Crop", font_size=100, pos_hint={'x':0, 'center_y': .9}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#page desc
-		desc = Label(text="Crop any extra space/extremities.", font_size=50, pos_hint={'x':0, 'center_y': .8}, outline_color=[0,0,0,1], outline_width=1)
+		desc = Label(text="Crop any extra space/extremities.", font_size=50, pos_hint={'x':0, 'center_y': .8}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#image 1
 		wimg = Image(source=fcselection[0])
 
 		#results button
-		results = Button(text='Next', pos_hint={'x':.4, 'y': .05}, size_hint=(.2, None), font_size=25)
+		results = Button(text='Next', pos_hint={'x':.4, 'y': .05}, size_hint=(.2, None), font_size=25, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
 		results.bind(on_press=self.Results)
 
 		#back button
-		back = Button(text='Back', pos_hint={'x':0, 'bottom_y': 1}, size_hint=(.05, .05), font_size=20)
+		back = Button(text='Back', pos_hint={'left':0, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
 		back.bind(on_press=self.Thermo)
 
 		#exit button
-		exit = Button(text='Exit', pos_hint={'x':.95, 'bottom_y': 1}, size_hint=(.05, .05), font_size=20)
+		exit = Button(text='Exit', pos_hint={'right':1, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
 		exit.bind(on_press=self.Close)
 
 		###adding widgets to layout
@@ -327,32 +327,32 @@ class UIManager(FloatLayout):
 		###widgets setup
 
 		#page title
-		title = Label(text="Results", font_size=100, pos_hint={'x':0, 'center_y': .9}, outline_color=[0,0,0,1], outline_width=1)
+		title = Label(text="Results", font_size=100, pos_hint={'x':0, 'center_y': .9}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#page desc
-		desc = Label(text="Our classifier indicates a 85% chance of a tumor.", font_size=35, pos_hint={'x':0, 'y': 0}, outline_color=[0,0,0,1], outline_width=1)
+		desc = Label(text="Our classifier indicates a 85% chance of a tumor.", font_size=35, pos_hint={'x':0, 'y': 0}, color=[0,0,0,1], outline_width=1)
 
 		#Export PDF button
-		pdf = Button(text='Export PDF', pos_hint={'x':.15, 'y': .1}, size_hint=(.2, None), font_size=25)
-		pdf.bind(on_press=self.UnderConstruction)
+		#pdf = Button(text='Export PDF', pos_hint={'x':.15, 'y': .1}, size_hint=(.2, None), font_size=25)
+		#pdf.bind(on_press=self.UnderConstruction)
 
 		#Export CSV button
-		csv = Button(text='Export CSV', pos_hint={'x':.65, 'y': .1}, size_hint=(.2, None), font_size=25)
-		csv.bind(on_press=self.UnderConstruction)
+		#csv = Button(text='Export CSV', pos_hint={'x':.65, 'y': .1}, size_hint=(.2, None), font_size=25)
+		#csv.bind(on_press=self.UnderConstruction)
 
 		#back button
-		back = Button(text='Back', pos_hint={'x':0, 'bottom_y': 1}, size_hint=(.05, .05), font_size=20)
+		back = Button(text='Back', pos_hint={'left':0, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
 		back.bind(on_press=self.Thermo)
 
 		#exit button
-		exit = Button(text='Exit', pos_hint={'x':.95, 'bottom_y': 1}, size_hint=(.05, .05), font_size=20)
+		exit = Button(text='Exit', pos_hint={'right':1, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
 		exit.bind(on_press=self.Close)
 
 		###adding widgets to layout
 		layout.add_widget(title)
 		layout.add_widget(desc)
-		layout.add_widget(pdf)
-		layout.add_widget(csv)
+		#layout.add_widget(pdf)
+		#layout.add_widget(csv)
 		layout.add_widget(back)
 		layout.add_widget(exit)
 

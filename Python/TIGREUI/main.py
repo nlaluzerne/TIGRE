@@ -12,6 +12,8 @@ from functools import partial
 from kivy.lang import Builder
 import webbrowser
 
+
+
 class UIManager(FloatLayout):
 	fselection = []
 	fcselection = []
@@ -26,31 +28,31 @@ class UIManager(FloatLayout):
 		###widgets setup
 
 		#page title
-		title = Label(text="TIGRE", font_size=100, pos_hint={'x':0, 'center_y': .9}, outline_color=[0,0,0,1], outline_width=1)
+		title = Label(text="TIGRE", font_size=100, pos_hint={'center_x':0.275, 'center_y': .6475}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#page desc
-		desc = Label(text="Medical Imaging Framework", font_size=50, pos_hint={'x':0, 'center_y': .8}, outline_color=[0,0,0,1], outline_width=1)
+		desc = Label(text="Medical Imaging Framework", font_size=50, pos_hint={'center_x':0.280, 'center_y': 0.5475}, color=[0,(81/255),(186/255),1], outline_width=1)
+
+		#about button
+		about = Button(text='About', pos_hint={'center_x': 0.2775, 'center_y': 0.4475}, size_hint=(0.05, 0.05), font_size=20, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
+		about.bind(on_press=self.TIGREhub, on_release=self.Menu)
 
 		#ct button
-		ct = Button(text=' Tomographic\nReconstruction', pos_hint={'x':.15, 'center_y': .6}, size_hint=(.2, None), font_size=25)
+		ct = Button(text=' Tomographic\nReconstruction', pos_hint={'center_x':.70, 'center_y': .6335}, size_hint=(.2, None), font_size=25, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
 		ct.bind(on_press=self.UnderConstruction)
 
 		#ct blurb
-		ctBlurb = Label(text="Under Construction", font_size=15, pos_hint={'x':-.25, 'center_y': .5}, outline_color=[0,0,0,1], outline_width=1)
+		ctBlurb = Label(text="*Under Construction*", font_size=15, pos_hint={'center_x':0.70, 'center_y': 0.5735}, color=[(232/255),0,(13/255),1], outline_width=1)
 
 		#thermography button
-		therm = Button(text='Thermography', pos_hint={'x':.65, 'center_y': .6}, size_hint=(.2, None), font_size=25)
+		therm = Button(text='Thermography', pos_hint={'center_x':.70, 'center_y': .4335}, size_hint=(.2, None), font_size=25, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
 		therm.bind(on_press=self.Thermo)
 
 		#therm blurb
-		thermBlurb = Label(text="Under Construction", font_size=15, pos_hint={'x':.25, 'center_y': .5}, outline_color=[0,0,0,1], outline_width=1)
-
-		#about button
-		about = Button(text='About', pos_hint={'x':.4, 'y': .05}, size_hint=(.2, None), font_size=25)
-		about.bind(on_press=self.TIGREhub, on_release=self.Menu)
+		thermBlurb = Label(text="*Under Construction*", font_size=15, pos_hint={'center_x':.70, 'center_y': .3735}, color=[(232/255),0,(13/255),1], outline_width=1)
 
 		#exit button
-		exit = Button(text='Exit', pos_hint={'x':.95, 'bottom_y': 1}, size_hint=(.05, .05), font_size=20)
+		exit = Button(text='Exit', pos_hint={'right':1, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
 		exit.bind(on_press=self.Close)
 
 		###adding widgets to layout
@@ -80,31 +82,31 @@ class UIManager(FloatLayout):
 		###widgets setup
 
 		#page title
-		title = Label(text="TIGRE", font_size=100, pos_hint={'x':0, 'center_y': .9}, outline_color=[0,0,0,1], outline_width=1)
+		title = Label(text="TIGRE", font_size=100, pos_hint={'center_x':0.275, 'center_y': .65}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#page desc
-		desc = Label(text="Medical Imaging Framework", font_size=50, pos_hint={'x':0, 'center_y': .8}, outline_color=[0,0,0,1], outline_width=1)
+		desc = Label(text="Medical Imaging Framework", font_size=50, pos_hint={'center_x':0.280, 'center_y': 0.55}, color=[0,(81/255),(186/255),1], outline_width=1)
+
+		#about button
+		about = Button(text='About', pos_hint={'center_x': 0.2775, 'center_y': 0.45}, size_hint=(0.05, 0.05), font_size=20, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
+		about.bind(on_press=self.TIGREhub, on_release=self.Menu)
 
 		#ct button
-		ct = Button(text=' Tomographic\nReconstruction', pos_hint={'x':.15, 'center_y': .6}, size_hint=(.2, None), font_size=25)
+		ct = Button(text=' Tomographic\nReconstruction', pos_hint={'center_x':.70, 'center_y': .635}, size_hint=(.2, None), font_size=25, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
 		ct.bind(on_press=self.UnderConstruction)
 
 		#ct blurb
-		ctBlurb = Label(text="Under Construction", font_size=15, pos_hint={'x':-.25, 'center_y': .5}, outline_color=[0,0,0,1], outline_width=1)
+		ctBlurb = Label(text="*Under Construction*", font_size=15, pos_hint={'center_x':0.70, 'center_y': 0.575}, color=[(232/255),0,(13/255),1], outline_width=1)
 
 		#thermography button
-		therm = Button(text='Thermography', pos_hint={'x':.65, 'center_y': .6}, size_hint=(.2, None), font_size=25)
+		therm = Button(text='Thermography', pos_hint={'center_x':.70, 'center_y': .435}, size_hint=(.2, None), font_size=25, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
 		therm.bind(on_press=self.Thermo)
 
 		#therm blurb
-		thermBlurb = Label(text="Under Construction", font_size=15, pos_hint={'x':.25, 'center_y': .5}, outline_color=[0,0,0,1], outline_width=1)
-
-		#about button
-		about = Button(text='About', pos_hint={'x':.4, 'y': .05}, size_hint=(.2, None), font_size=25)
-		about.bind(on_press=self.TIGREhub, on_release=self.Menu)
+		thermBlurb = Label(text="*Under Construction*", font_size=15, pos_hint={'center_x':.70, 'center_y': .375}, color=[(232/255),0,(13/255),1], outline_width=1)
 
 		#exit button
-		exit = Button(text='Exit', pos_hint={'x':.95, 'bottom_y': 1}, size_hint=(.05, .05), font_size=20)
+		exit = Button(text='Exit', pos_hint={'right':1, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
 		exit.bind(on_press=self.Close)
 
 		###adding widgets to layout
@@ -133,7 +135,7 @@ class UIManager(FloatLayout):
 		desc = Label(text="Oops! Page Under Construction", font_size=50, pos_hint={'x':0, 'center_y': .8}, outline_color=[0,0,0,1], outline_width=1)
 
 		#return button
-		ret = Button(text='Return to Menu', pos_hint={'x':.4, 'y': .05}, size_hint=(.2, None))
+		ret = Button(text='Return to Menu', pos_hint={'x':.4, 'y': .05}, size_hint=(.2, None), color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
 		ret.bind(on_press=self.Menu)
 
 		###adding widgets to the layout
@@ -361,7 +363,7 @@ class TIGREApp(App):
 		self.root = root = UIManager()
 		root.bind(size=self._update_rect, pos=self._update_rect)
 		with root.canvas.before:
-			Color(.5647, .5647, .5647, 1) #background colour
+			Color(0.99, 0.99, 0.99, 1) #background colour
 			self.rect = Rectangle(size=root.size, pos=root.pos)
 		return root
 

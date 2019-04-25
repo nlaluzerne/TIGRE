@@ -10,13 +10,16 @@ from kivy.core.window import Window
 from kivy.uix.filechooser import FileChooserListView
 from functools import partial
 from kivy.lang import Builder
+from ensemble_infer import infer
 import webbrowser
-
-
+import cv2
+import numpy
 
 class UIManager(FloatLayout):
-	fselection = []
+	fccsv = []
+	fcsv = []
 	fcselection = []
+	fselection = []
 
 	def __init__(self, **kwargs):
 		super(UIManager, self).__init__(**kwargs)
@@ -152,7 +155,7 @@ class UIManager(FloatLayout):
 
 		#breast cancer analysis button
 		bca = Button(text='Breast Cancer Analysis', pos_hint={'center_x':.75, 'center_y': .55}, size_hint=(.325, None), font_size=25, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
-		bca.bind(on_press=self.ImageSelectfc)
+		bca.bind(on_press=self.CsvSelectfc)
 
 		#breast cancer analysis blurb
 		bcaBlurb = Label(text="The only option available as of now, but expandable", font_size=15, pos_hint={'x':0.25, 'center_y': 0.47}, color=[(232/255),0,(13/255),1], outline_width=1)
@@ -166,7 +169,7 @@ class UIManager(FloatLayout):
 		learn.bind(on_press=self.UnderConstruction)
 
 		#back button
-		back = Button(text='Back', pos_hint={'left':0, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
+		back = Button(text='Back', pos_hint={'left':0, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
 		back.bind(on_press=self.Menu)
 
 		#exit button
@@ -183,8 +186,7 @@ class UIManager(FloatLayout):
 		layout.add_widget(back)
 		layout.add_widget(exit)
 
-
-	def ImageSelectfc(self, button):
+	def CsvSelectfc(self, button):
 		###page setup
 		self.clear_widgets()
 		layout = FloatLayout()
@@ -206,10 +208,104 @@ class UIManager(FloatLayout):
 
 		#results button
 		results = Button(text='Next', pos_hint={'x':.4, 'y': .05}, size_hint=(.2, None), font_size=25, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
+		results.bind(on_press=partial(self.loadfccsv, fchooser), on_release=self.CsvSelectf)
+
+		#back button
+		back = Button(text='Back', pos_hint={'left':0, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
+		back.bind(on_press=self.Thermo)
+
+		#exit button
+		exit = Button(text='Exit', pos_hint={'right':1, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
+		exit.bind(on_press=self.Close)
+
+		###adding widgets to layout
+		layout.add_widget(rect)
+		layout.add_widget(title)
+		layout.add_widget(desc)
+		layout.add_widget(fchooser)
+		layout.add_widget(results)
+		layout.add_widget(back)
+		layout.add_widget(exit)
+
+	def loadfccsv(self, filechooser, button):
+		self.fccsvload(filechooser.selection)
+	def fccsvload(self, selection):
+		global fccsv
+		fccsv = selection
+
+	def CsvSelectf(self, button):
+		###page setup
+		self.clear_widgets()
+		layout = FloatLayout()
+		self.add_widget(layout)
+
+		###widgets setup
+
+		#file chooser background
+		rect = Button(pos_hint={'x':.25, 'y': .175}, background_normal='', size_hint=(.5, .6), background_color=[(124/255),(126/255),(127/255),1])
+
+		#page title
+		title = Label(text="Temperature Matrix Select", font_size=100, pos_hint={'x':0, 'center_y': .9}, color=[0,(81/255),(186/255),1], outline_width=1)
+
+		#page desc
+		desc = Label(text="Select a Normal Temperature Matrix", font_size=50, pos_hint={'x':0, 'center_y': .82}, color=[0,(81/255),(186/255),1], outline_width=1)
+
+		#file chooser
+		fchooser = FileChooserListView(pos_hint={'x':.25, 'y': .175}, size_hint=(.5, .6))
+
+		#results button
+		results = Button(text='Next', pos_hint={'x':.4, 'y': .05}, size_hint=(.2, None), font_size=25, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
+		results.bind(on_press=partial(self.loadfcsv, fchooser), on_release=self.ImageSelectfc)
+
+		#back button
+		back = Button(text='Back', pos_hint={'left':0, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
+		back.bind(on_press=self.Thermo)
+
+		#exit button
+		exit = Button(text='Exit', pos_hint={'right':1, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
+		exit.bind(on_press=self.Close)
+
+		###adding widgets to layout
+		layout.add_widget(rect)
+		layout.add_widget(title)
+		layout.add_widget(desc)
+		layout.add_widget(fchooser)
+		layout.add_widget(results)
+		layout.add_widget(back)
+		layout.add_widget(exit)
+
+	def loadfcsv(self, filechooser, button):
+		self.fcsvload(filechooser.selection)
+	def fcsvload(self, selection):
+		global fcsv
+		fcsv = selection
+
+	def ImageSelectfc(self, button):
+		###page setup
+		self.clear_widgets()
+		layout = FloatLayout()
+		self.add_widget(layout)
+
+		###widgets setup
+
+		#file chooser background
+		rect = Button(pos_hint={'x':.25, 'y': .175}, background_normal='', size_hint=(.5, .6), background_color=[(124/255),(126/255),(127/255),1])
+
+		#page title
+		title = Label(text="Image Select", font_size=100, pos_hint={'x':0, 'center_y': .9}, color=[0,(81/255),(186/255),1], outline_width=1)
+
+		#page desc
+		desc = Label(text="Select a Cooled Image", font_size=50, pos_hint={'x':0, 'center_y': .82}, color=[0,(81/255),(186/255),1], outline_width=1)
+
+		#file chooser
+		fchooser = FileChooserListView(pos_hint={'x':.25, 'y': .175}, size_hint=(.5, .6))
+
+		#results button
+		results = Button(text='Next', pos_hint={'x':.4, 'y': .05}, size_hint=(.2, None), font_size=25, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
 		results.bind(on_press=partial(self.loadfcImage, fchooser), on_release=self.ImageSelectf)
 
 		#back button
-		back = Button(text='Back', pos_hint={'left':0, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
+		back = Button(text='Back', pos_hint={'left':0, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
 		back.bind(on_press=self.Thermo)
 
 		#exit button
@@ -244,20 +340,20 @@ class UIManager(FloatLayout):
 		rect = Button(pos_hint={'x':.25, 'y': .175}, background_normal='', size_hint=(.5, .6), background_color=[(124/255),(126/255),(127/255),1])
 
 		#page title
-		title = Label(text="Temperature Matrix Select", font_size=100, pos_hint={'x':0, 'center_y': .9}, color=[0,(81/255),(186/255),1], outline_width=1)
+		title = Label(text="Image Select", font_size=100, pos_hint={'x':0, 'center_y': .9}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#page desc
-		desc = Label(text="Select a Normal Temperature Matrix", font_size=50, pos_hint={'x':0, 'center_y': .82}, color=[0,(81/255),(186/255),1], outline_width=1)
+		desc = Label(text="Select a Normal Temperature Image", font_size=50, pos_hint={'x':0, 'center_y': .82}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#file chooser
 		fchooser = FileChooserListView(pos_hint={'x':.25, 'y': .175}, size_hint=(.5, .6))
 
 		#results button
 		results = Button(text='Next', pos_hint={'x':.4, 'y': .05}, size_hint=(.2, None), font_size=25, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
-		results.bind(on_press=partial(self.loadfImage, fchooser), on_release=self.ImgCrop)
+		results.bind(on_press=partial(self.loadfImage, fchooser), on_release=self.Results)
 
 		#back button
-		back = Button(text='Back', pos_hint={'left':0, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
+		back = Button(text='Back', pos_hint={'left':0, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
 		back.bind(on_press=self.Thermo)
 
 		#exit button
@@ -278,45 +374,49 @@ class UIManager(FloatLayout):
 	def fload(self, selection):
 		global fselection
 		fselection = selection
+		print(fccsv)
+		print(fcsv)
+		print(fcselection)
+		print(fselection)
 
 
-	def ImgCrop(self, button):
-		###page setup
-		global fcselection
-		self.clear_widgets()
-		layout = FloatLayout()
-		self.add_widget(layout)
+#	def ImgCrop(self, button):
+#		###page setup
+#		global fcselection
+#		self.clear_widgets()
+#		layout = FloatLayout()
+#		self.add_widget(layout)
 
 		###widgets setup
 
 		#page title
-		title = Label(text="Image Crop", font_size=100, pos_hint={'x':0, 'center_y': .9}, color=[0,(81/255),(186/255),1], outline_width=1)
+#		title = Label(text="Image Crop", font_size=100, pos_hint={'x':0, 'center_y': .9}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#page desc
-		desc = Label(text="Crop any extra space/extremities.", font_size=50, pos_hint={'x':0, 'center_y': .8}, color=[0,(81/255),(186/255),1], outline_width=1)
+#		desc = Label(text="Crop any extra space/extremities.", font_size=50, pos_hint={'x':0, 'center_y': .8}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#image 1
-		wimg = Image(source=fcselection[0])
+#		wimg = Image(source=fcselection[0])
 
 		#results button
-		results = Button(text='Next', pos_hint={'x':.4, 'y': .05}, size_hint=(.2, None), font_size=25, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
-		results.bind(on_press=self.Results)
+#		results = Button(text='Next', pos_hint={'x':.4, 'y': .05}, size_hint=(.2, None), font_size=25, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
+#		results.bind(on_press=self.Results)
 
 		#back button
-		back = Button(text='Back', pos_hint={'left':0, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
-		back.bind(on_press=self.Thermo)
+#		back = Button(text='Back', pos_hint={'left':0, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
+#		back.bind(on_press=self.Thermo)
 
 		#exit button
-		exit = Button(text='Exit', pos_hint={'right':1, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
-		exit.bind(on_press=self.Close)
+#		exit = Button(text='Exit', pos_hint={'right':1, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
+#		exit.bind(on_press=self.Close)
 
 		###adding widgets to layout
-		layout.add_widget(title)
-		layout.add_widget(desc)
-		layout.add_widget(wimg)
-		layout.add_widget(results)
-		layout.add_widget(back)
-		layout.add_widget(exit)
+#		layout.add_widget(title)
+#		layout.add_widget(desc)
+#		layout.add_widget(wimg)
+#		layout.add_widget(results)
+#		layout.add_widget(back)
+#		layout.add_widget(exit)
 
 	def Results(self, button):
 		###page setup
@@ -330,7 +430,7 @@ class UIManager(FloatLayout):
 		title = Label(text="Results", font_size=100, pos_hint={'x':0, 'center_y': .9}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#page desc
-		desc = Label(text="Our classifier indicates a 85% chance of a tumor.", font_size=35, pos_hint={'x':0, 'y': 0}, color=[0,0,0,1], outline_width=1)
+		desc = Label(text=("Our classifier indicates a " + str(round(100 * infer(cv2.imread(fselection[0],1), cv2.imread(fcselection[0],1)), 2)) + "% chance of a tumor."), font_size=35, pos_hint={'x':0, 'y': 0}, color=[0,0,0,1], outline_width=1)
 
 		#Export PDF button
 		#pdf = Button(text='Export PDF', pos_hint={'x':.15, 'y': .1}, size_hint=(.2, None), font_size=25)
@@ -341,7 +441,7 @@ class UIManager(FloatLayout):
 		#csv.bind(on_press=self.UnderConstruction)
 
 		#back button
-		back = Button(text='Back', pos_hint={'left':0, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
+		back = Button(text='Back', pos_hint={'left':0, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
 		back.bind(on_press=self.Thermo)
 
 		#exit button

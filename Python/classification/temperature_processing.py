@@ -3,7 +3,6 @@
 # Created by: Natalie LaLuzerne
 # =============================================================================
 import numpy as np
-import csv
 from scipy import stats
 
 # =============================================================================
@@ -23,20 +22,12 @@ class location:
 minSlopeThreshold = -0.006495790
 maxSlopeThreshold = 0.007409563
     
-def temp_proc(filepath):
+def temp_proc(bins):
     
     # =========================================================================
     #   initialize tumor location storage structure
     # =========================================================================
     locationList = []
-    
-    # =========================================================================
-    #   Read in file
-    # =========================================================================
-    with open(filepath) as f:
-        bins = list(csv.reader(f))
-                
-    bins = np.array(bins, dtype=float)
     
     # =========================================================================
     #   Apply background filter

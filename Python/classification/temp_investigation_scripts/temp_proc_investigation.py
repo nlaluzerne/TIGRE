@@ -300,8 +300,10 @@ for p in range(len(slopeList)):
 plt.plot(freeFit, c='k')
 plt.plot(minFit, c='k')
 plt.plot(maxFit, c='k')
-plt.plot(minModel, c='y')
-plt.plot(maxModel, c='y')
+# =============================================================================
+# plt.plot(minModel, c='y')
+# plt.plot(maxModel, c='y')
+# =============================================================================
 plt.title("Slopes")
 plt.xlabel("Row Number (bottom of image is Row 0)")
 plt.ylabel("Slope")

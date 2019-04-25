@@ -23,7 +23,7 @@ class location:
 minSlopeThreshold = -0.006495790
 maxSlopeThreshold = 0.007409563
     
-def temp_proc(dirname, filename):
+def temp_proc(filepath):
     
     # =========================================================================
     #   initialize tumor location storage structure
@@ -33,7 +33,7 @@ def temp_proc(dirname, filename):
     # =========================================================================
     #   Read in file
     # =========================================================================
-    with open(dirname + "\\" + filename) as f:
+    with open(filepath) as f:
         bins = list(csv.reader(f))
                 
     bins = np.array(bins, dtype=float)

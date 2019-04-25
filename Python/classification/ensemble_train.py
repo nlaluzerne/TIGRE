@@ -7,6 +7,7 @@ from getPatientIds import getPatients
 import string
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from csv_to_temp_matrix import convert_csv
 
 def file_lines(file_name):
     with open(file_name) as f:
@@ -23,14 +24,21 @@ N = file_lines('patientAssignments/patients_nocancer.txt')
 Y = file_lines('patientAssignments/patients_cancer.txt')
 N = [strip(l) for l in N]
 Y = [strip(l) for l in Y]
+for name in ['MolGab131212', 'QuiDul111012', 'ReaAlm281112', 'EugJul170310']:
+    if name in N:
+        N.remove(name)
+    if name in Y:
+        Y.remove(name)
 
 N_path = 'Images_noBG/N/'
 Y_path = 'Images_noBG/Y/'
 f_suffix = 'A2BA-f.jpg'
 fc_suffix = 'A2BA-fc.jpg'
+csv_path = 'All_Crops/'
+fc_csv_suffix = 'A2BA-fc.csv'
 
-N_mat = [all_f(read_img(N_path + patient + f_suffix), read_img(N_path + patient + fc_suffix)) for patient in N]
-Y_mat = [all_f(read_img(Y_path + patient + f_suffix), read_img(Y_path + patient + fc_suffix)) for patient in Y]
+N_mat = [all_f(read_img(N_path + patient + f_suffix), read_img(N_path + patient + fc_suffix), convert_csv(csv_path + patient + fc_csv_suffix)) for patient in N]
+Y_mat = [all_f(read_img(Y_path + patient + f_suffix), read_img(Y_path + patient + fc_suffix), convert_csv(csv_path + patient + fc_csv_suffix)) for patient in Y]
 N_labels = [0] * len(N_mat)
 Y_labels = [1] * len(Y_mat)
 

@@ -76,8 +76,8 @@ def temp_proc(bins):
     # =========================================================================
     SUM = np.sum(locationList)
     if(SUM > 0):
-        return("RIGHT")
+        return([0,1]) #right
     elif(SUM < 0):
-        return("LEFT")
+        return([1,0]) #left
     else:
-        return("NONE")
+        return([0,0]) #none

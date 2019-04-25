@@ -103,7 +103,7 @@ freeFit = [np.mean(b) for b in transposeSlopeList]
 
 minFit = [m - fitThreshold for m in freeFit]
 
-max_minFitVal = np.max(minFit)
+max_minFitVal = np.min(minFit[:-50])
 
 minModel = [max_minFitVal for _ in range(375)]
 
@@ -117,26 +117,6 @@ print("Min = " +  str(max_minFitVal))
 print("Max = " +  str(max_maxFitVal))
         
 plt.figure(figsize=(10,7))
-# =============================================================================
-# plt.plot(slopeList[0], c = 'r')
-# plt.plot(slopeList[1], c = 'g')
-# plt.plot(slopeList[2], c = 'b')
-# plt.legend(["Tumor on Right", "Tumor on Left", "No Tumor"])
-# plt.title("Slopes by Row")
-# plt.xlabel("Row Number (bottom of image is Row 0)")
-# plt.ylabel("Slope")
-# =============================================================================
-# =============================================================================
-# for p in range(len(slopeList)):
-#     plt.plot(slopeList[p], c='b')
-# plt.plot(freeFit, c='k')
-# plt.plot(minFit, c='k')
-# plt.plot(maxFit, c='k')
-# plt.title("Slopes with fit")
-# plt.xlabel("Row Number (bottom of image is Row 0)")
-# plt.ylabel("Slope")
-# #plt.ylim(-0.04, 0.02)
-# =============================================================================
 
 ###############################################################################
 
@@ -196,7 +176,7 @@ for file in filenames:
     itr += 1
     
 for p in range(len(slopeList)):
-    plt.plot(slopeList[p])
+    plt.plot(slopeList[p], c='r')
     
 ###############################################################################
 
@@ -256,7 +236,7 @@ for file in filenames:
     itr += 1
     
 for p in range(len(slopeList)):
-    plt.plot(slopeList[p])
+    plt.plot(slopeList[p], c='g')
     
 ###############################################################################
 
@@ -316,12 +296,14 @@ for file in filenames:
     itr += 1
     
 for p in range(len(slopeList)):
-    plt.plot(slopeList[p])
-#plt.plot(freeFit, c='k')
-#plt.plot(minFit, c='k')
-#plt.plot(maxFit, c='k')
-#plt.plot(minModel, c='c')
-#plt.plot(maxModel, c='c')
+    plt.plot(slopeList[p], c='b')
+plt.plot(freeFit, c='k')
+plt.plot(minFit, c='k')
+plt.plot(maxFit, c='k')
+# =============================================================================
+# plt.plot(minModel, c='y')
+# plt.plot(maxModel, c='y')
+# =============================================================================
 plt.title("Slopes")
 plt.xlabel("Row Number (bottom of image is Row 0)")
 plt.ylabel("Slope")

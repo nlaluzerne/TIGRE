@@ -11,9 +11,12 @@ from kivy.uix.filechooser import FileChooserListView
 from functools import partial
 from kivy.lang import Builder
 from ensemble_infer import infer
+from csv_to_temp_matrix import convert_csv
+from temperature_processing import temp_proc
 import webbrowser
 import cv2
 import numpy
+import csv
 
 class UIManager(FloatLayout):
 	fccsv = []
@@ -125,7 +128,7 @@ class UIManager(FloatLayout):
 
 		#background image
 		background = AsyncImage(source='TIGRE_Oops.jpg')
-		
+
 		#page description
 		desc = Label(text="Oops! Page Under Construction", font_size=50, pos_hint={'x':0, 'center_y': .8}, outline_color=[0,0,0,1], outline_width=1)
 
@@ -430,7 +433,21 @@ class UIManager(FloatLayout):
 		title = Label(text="Results", font_size=100, pos_hint={'x':0, 'center_y': .9}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#page desc
-		desc = Label(text=("Our classifier indicates a " + str(round(100 * infer(cv2.imread(fselection[0],1), cv2.imread(fcselection[0],1)), 2)) + "% chance of a tumor."), font_size=35, pos_hint={'x':0, 'y': 0}, color=[0,0,0,1], outline_width=1)
+		prog = round(100 * infer(cv2.imread(fselection[0],1), cv2.imread(fcselection[0],1), convert_csv(fccsv[0])), 2)
+		desc = Label(text=("Our classifier indicates a " + str(prog) + "% chance of a tumor."), font_size=35, pos_hint={'x':0, 'y': 0}, color=[0,0,0,1], outline_width=1)
+
+		if(prog > 50):
+			loc = temp_proc(convert_csv(fccsv[0]))
+
+			if(loc == [0,1]):
+				location = "right"
+			elif(loc == [1,0]):
+				location = "left"
+			else:
+				location = "none"
+
+			if(location == "left" or location == "right"):
+				loca = Label(text=("We think the tumor is on the " + location + " side."), font_size=35, pos_hint={'x':0, 'y': 0}, color=[0,0,0,1], outline_width=1)
 
 		#Export PDF button
 		#pdf = Button(text='Export PDF', pos_hint={'x':.15, 'y': .1}, size_hint=(.2, None), font_size=25)
@@ -451,6 +468,7 @@ class UIManager(FloatLayout):
 		###adding widgets to layout
 		layout.add_widget(title)
 		layout.add_widget(desc)
+		layout.add_widget(loca)
 		#layout.add_widget(pdf)
 		#layout.add_widget(csv)
 		layout.add_widget(back)

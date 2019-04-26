@@ -11,13 +11,16 @@ from kivy.uix.filechooser import FileChooserListView
 from functools import partial
 from kivy.lang import Builder
 from ensemble_infer import infer
+from csv_to_temp_matrix import convert_csv
+from temperature_processing import temp_proc
+from ensemble_train import read_img
 import webbrowser
 import cv2
 import numpy
+import csv
 
 class UIManager(FloatLayout):
 	fccsv = []
-	fcsv = []
 	fcselection = []
 	fselection = []
 
@@ -125,7 +128,7 @@ class UIManager(FloatLayout):
 
 		#background image
 		background = AsyncImage(source='TIGRE_Oops.jpg')
-		
+
 		#page description
 		desc = Label(text="Oops! Page Under Construction", font_size=50, pos_hint={'x':0, 'center_y': .8}, outline_color=[0,0,0,1], outline_width=1)
 
@@ -208,7 +211,7 @@ class UIManager(FloatLayout):
 
 		#results button
 		results = Button(text='Next', pos_hint={'x':.4, 'y': .05}, size_hint=(.2, None), font_size=25, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
-		results.bind(on_press=partial(self.loadfccsv, fchooser), on_release=self.CsvSelectf)
+		results.bind(on_press=partial(self.loadfccsv, fchooser), on_release=self.ImageSelectfc)
 
 		#back button
 		back = Button(text='Back', pos_hint={'left':0, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
@@ -232,53 +235,6 @@ class UIManager(FloatLayout):
 	def fccsvload(self, selection):
 		global fccsv
 		fccsv = selection
-
-	def CsvSelectf(self, button):
-		###page setup
-		self.clear_widgets()
-		layout = FloatLayout()
-		self.add_widget(layout)
-
-		###widgets setup
-
-		#file chooser background
-		rect = Button(pos_hint={'x':.25, 'y': .175}, background_normal='', size_hint=(.5, .6), background_color=[(124/255),(126/255),(127/255),1])
-
-		#page title
-		title = Label(text="Temperature Matrix Select", font_size=100, pos_hint={'x':0, 'center_y': .9}, color=[0,(81/255),(186/255),1], outline_width=1)
-
-		#page desc
-		desc = Label(text="Select a Normal Temperature Matrix", font_size=50, pos_hint={'x':0, 'center_y': .82}, color=[0,(81/255),(186/255),1], outline_width=1)
-
-		#file chooser
-		fchooser = FileChooserListView(pos_hint={'x':.25, 'y': .175}, size_hint=(.5, .6))
-
-		#results button
-		results = Button(text='Next', pos_hint={'x':.4, 'y': .05}, size_hint=(.2, None), font_size=25, color=[1,1,1,1], background_normal='', background_color=[0,(81/255),(186/255),1])
-		results.bind(on_press=partial(self.loadfcsv, fchooser), on_release=self.ImageSelectfc)
-
-		#back button
-		back = Button(text='Back', pos_hint={'left':0, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
-		back.bind(on_press=self.Thermo)
-
-		#exit button
-		exit = Button(text='Exit', pos_hint={'right':1, 'top': 1}, size_hint=(.0375, .0375), font_size=20, color=[1,1,1,1], background_normal='', background_color=[(232/255),0,(13/255),1])
-		exit.bind(on_press=self.Close)
-
-		###adding widgets to layout
-		layout.add_widget(rect)
-		layout.add_widget(title)
-		layout.add_widget(desc)
-		layout.add_widget(fchooser)
-		layout.add_widget(results)
-		layout.add_widget(back)
-		layout.add_widget(exit)
-
-	def loadfcsv(self, filechooser, button):
-		self.fcsvload(filechooser.selection)
-	def fcsvload(self, selection):
-		global fcsv
-		fcsv = selection
 
 	def ImageSelectfc(self, button):
 		###page setup
@@ -374,10 +330,6 @@ class UIManager(FloatLayout):
 	def fload(self, selection):
 		global fselection
 		fselection = selection
-		print(fccsv)
-		print(fcsv)
-		print(fcselection)
-		print(fselection)
 
 
 #	def ImgCrop(self, button):
@@ -430,7 +382,22 @@ class UIManager(FloatLayout):
 		title = Label(text="Results", font_size=100, pos_hint={'x':0, 'center_y': .9}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#page desc
-		desc = Label(text=("Our classifier indicates a " + str(round(100 * infer(cv2.imread(fselection[0],1), cv2.imread(fcselection[0],1)), 2)) + "% chance of a tumor."), font_size=35, pos_hint={'x':0, 'y': 0}, color=[0,0,0,1], outline_width=1)
+		prog = round(100 * infer(read_img(fselection[0]), read_img(fcselection[0]), convert_csv(fccsv[0])), 2)
+		desc = Label(text=("Our classifier indicates a " + str(prog) + "% chance of a tumor."), font_size=35, pos_hint={'x':0, 'y': 0}, color=[0,0,0,1], outline_width=1)
+
+		if(prog > 50):
+			loc = temp_proc(convert_csv(fccsv[0]))
+
+			if(loc == [0,1]):
+				location = "right"
+			elif(loc == [1,0]):
+				location = "left"
+			else:
+				location = "none"
+
+			if(location == "left" or location == "right"):
+				loca = Label(text=("We think the tumor is on the " + location + " side."), font_size=35, pos_hint={'x':0, 'y': -0.2}, color=[0,0,0,1], outline_width=1)
+			layout.add_widget(loca)
 
 		#Export PDF button
 		#pdf = Button(text='Export PDF', pos_hint={'x':.15, 'y': .1}, size_hint=(.2, None), font_size=25)

@@ -448,6 +448,7 @@ class UIManager(FloatLayout):
 
 			if(location == "left" or location == "right"):
 				loca = Label(text=("We think the tumor is on the " + location + " side."), font_size=35, pos_hint={'x':0, 'y': 0}, color=[0,0,0,1], outline_width=1)
+			layout.add_widget(loca)
 
 		#Export PDF button
 		#pdf = Button(text='Export PDF', pos_hint={'x':.15, 'y': .1}, size_hint=(.2, None), font_size=25)
@@ -468,7 +469,6 @@ class UIManager(FloatLayout):
 		###adding widgets to layout
 		layout.add_widget(title)
 		layout.add_widget(desc)
-		layout.add_widget(loca)
 		#layout.add_widget(pdf)
 		#layout.add_widget(csv)
 		layout.add_widget(back)

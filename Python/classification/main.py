@@ -382,7 +382,7 @@ class UIManager(FloatLayout):
 		title = Label(text="Results", font_size=100, pos_hint={'x':0, 'center_y': .9}, color=[0,(81/255),(186/255),1], outline_width=1)
 
 		#page desc
-		prog = round(100 * infer(read_img(fselection[0]), read_img(fcselection[0]), convert_csv(fccsv[0])), 2)
+		prog = int(round(100 * infer(read_img(fselection[0]), read_img(fcselection[0]), convert_csv(fccsv[0]))))
 		desc = Label(text=("Our classifier indicates a " + str(prog) + "% chance of a tumor."), font_size=35, pos_hint={'x':0, 'y': 0}, color=[0,0,0,1], outline_width=1)
 
 		if(prog > 50):
